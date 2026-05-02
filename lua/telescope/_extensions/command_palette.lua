@@ -71,8 +71,8 @@ function themes.vscode(opts)
 end
 
 --- fix selection's desc to strip nil value
----@param selection PaletteSelection: original selection
----@return string: description after being fixed
+---@param selection PaletteSelection -- original selection
+---@return string -- description after being fixed
 local function fixup_desc(selection)
   local op = selection.op
   if type(op) == "table" then
@@ -120,9 +120,9 @@ local function menu_name(menu)
 end
 
 ---@alias PaletteOperation
----| table sub-level menu
----| string vimscript
----| function lua function
+---| table -- sub-level menu
+---| string -- vimscript
+---| function -- lua function
 
 ---@class PaletteSelection
 ---@field name string
@@ -130,9 +130,9 @@ end
 ---@field op PaletteOperation
 
 ---@alias PaletteAttribute
----| 'n' name
----| 'd' description
----| 'o' operations
+---| 'n' -- name
+---| 'd' -- description
+---| 'o' -- operations
 
 --- get an iterm's attribute as per attribute
 ---@param selection PaletteSelection
