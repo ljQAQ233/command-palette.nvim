@@ -7,7 +7,8 @@ $(output): $(input)
 	panvimdoc \
 		--project-name $(name) \
 		--input-file $(input) \
-		--demojify true
+		--demojify true \
+		--treesitter true
 
 gendoc: $(output)
 
