@@ -1,10 +1,10 @@
 <!-- panvimdoc-ignore-start -->
-# telescope-command-palette.nvim
+# command-palette.nvim
 <!-- panvimdoc-ignore-end -->
 
 # Introduction
 
-`telescope-command-palette.nvim` is a neovim plugin written entirely in lua that will help you to access your custom commands/function/key-bindings.
+`command-palette.nvim` is a neovim plugin written entirely in lua that will help you to access your custom commands/function/key-bindings.
 
 This plugin is a fork of [LinArcX/telescope-command-palette.nvim](https://github.com/LinArcX/telescope-command-palette.nvim), with extra features and improvements maintained by me.
 
@@ -22,12 +22,12 @@ The original repository is no longer actively maintained.
 
 ```viml
 Plug "nvim-telescope/telescope.nvim"
-Plug "ljQAQ233/telescope-command-palette.nvim"
+Plug "ljQAQ233/command-palette.nvim"
 ```
 
 ```lua
 use { "nvim-telescope/telescope.nvim" }
-use { "ljQAQ233/telescope-command-palette.nvim" }
+use { "ljQAQ233/command-palette.nvim" }
 ```
 
 ## Configurations
@@ -142,7 +142,7 @@ table.insert(require("command_palette").CpMenu, {
 # Develop
 
 ```shell
-git clone https://github.com/ljQAQ233/telescope-command-palette.nvim
+git clone https://github.com/ljQAQ233/command-palette.nvim
 ```
 
 - `make clean` - clean built docs and rubbish

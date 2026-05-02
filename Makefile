@@ -1,4 +1,4 @@
-name=telescope-command-palette
+name=command-palette
 input=$(CURDIR)/README.md
 
 output=doc/$(name).txt
