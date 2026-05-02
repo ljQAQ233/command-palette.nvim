@@ -1,35 +1,36 @@
+<!-- panvimdoc-ignore-start -->
 # telescope-command-palette.nvim
+<!-- panvimdoc-ignore-end -->
+
+# Introduction
+
+`telescope-command-palette.nvim` is a neovim plugin written entirely in lua that will help you to access your custom commands/function/key-bindings.
 
 This plugin is a fork of [LinArcX/telescope-command-palette.nvim](https://github.com/LinArcX/telescope-command-palette.nvim), with extra features and improvements maintained by me.
 
 The original repository is no longer actively maintained.
 
-# :telescope: telescope-command-palette.nvim
-
-`telescope-command-palette.nvim` is a neovim plugin written entirely in lua that will help you to access your custom commands/function/key-bindings.
+<!-- panvimdoc-ignore-start -->
 
 # Demo
 
 ![Demo](https://user-images.githubusercontent.com/10884422/148601223-5ade5806-9935-4ff7-888c-d00b41178a96.gif)
 
+<!-- panvimdoc-ignore-end -->
 
 # Installation
-
-### Vim-Plug
 
 ```viml
 Plug "nvim-telescope/telescope.nvim"
 Plug "ljQAQ233/telescope-command-palette.nvim"
 ```
 
-### Packer
-
 ```lua
 use { "nvim-telescope/telescope.nvim" }
 use { "ljQAQ233/telescope-command-palette.nvim" }
 ```
 
-# Setup and Configuration
+## Configurations
 
 First set up your commands in your Telescope config:
 
@@ -37,16 +38,17 @@ First set up your commands in your Telescope config:
 require("telescope").setup({
   extensions = {
     command_palette = {
+      "Command Palette",
       {
         "File",
-        { "entire selection (C-a)", ":call feedkeys(\"GVgg\")" },
-        { "save current file (C-s)", ":w" },
-        { "save all files (C-A-s)", ":wa" },
-        { "quit (C-q)", ":qa" },
-        { "file browser (C-i)", ":lua require'telescope'.extensions.file_browser.file_browser()", 1 },
-        { "search word (A-w)", ":lua require('telescope.builtin').live_grep()", 1 },
-        { "git files (A-f)", ":lua require('telescope.builtin').git_files()", 1 },
-        { "files (C-f)", ":lua require('telescope.builtin').find_files()", 1 },
+        { "entire selection", ":call feedkeys(\"GVgg\")" },
+        { "save current file)", ":w" },
+        { "save all files", ":wa" },
+        { "quit", ":qa" },
+        { "file browser", ":lua require'telescope'.extensions.file_browser.file_browser()" },
+        { "search word", ":lua require('telescope.builtin').live_grep()" },
+        { "git files", ":lua require('telescope.builtin').git_files()" },
+        { "files", ":lua require('telescope.builtin').find_files()" },
       },
       {
         "Help",
@@ -55,27 +57,27 @@ require("telescope").setup({
         { "tutorial", ":help tutor" },
         { "summary", ":help summary" },
         { "quick reference", ":help quickref" },
-        { "search help(F1)", ":lua require('telescope.builtin').help_tags()", 1 },
+        { "search help", ":lua require('telescope.builtin').help_tags()" },
       },
       {
         "Vim",
         { "reload vimrc", ":source $MYVIMRC" },
         { "check health", ":checkhealth" },
-        { "jumps (Alt-j)", ":lua require('telescope.builtin').jumplist()" },
+        { "jumps", ":lua require('telescope.builtin').jumplist()" },
         { "commands", ":lua require('telescope.builtin').commands()" },
         { "command history", ":lua require('telescope.builtin').command_history()" },
         { "registers (A-e)", ":lua require('telescope.builtin').registers()" },
-        { "colorshceme", ":lua require('telescope.builtin').colorscheme()", 1 },
+        { "colorshceme", ":lua require('telescope.builtin').colorscheme()" },
         { "vim options", ":lua require('telescope.builtin').vim_options()" },
         { "keymaps", ":lua require('telescope.builtin').keymaps()" },
         { "buffers", ":Telescope buffers" },
-        { "search history (C-h)", ":lua require('telescope.builtin').search_history()" },
+        { "search history", ":lua require('telescope.builtin').search_history()" },
         { "paste mode", ":set paste!" },
         { "cursor line", ":set cursorline!" },
         { "cursor column", ":set cursorcolumn!" },
         { "spell checker", ":set spell!" },
         { "relative number", ":set relativenumber!" },
-        { "search highlighting (F12)", ":set hlsearch!" },
+        { "search highlighting", ":set hlsearch!" },
       },
     },
   },
@@ -96,7 +98,7 @@ Each command has three parts:
 
 Tip: `CpMenu` is just a simple [table](https://www.lua.org/pil/2.5.html).
 
-## Per project configurations
+## Per-project config
 
 If you're working on different projects and want to have special key_bindings per project, you can create a `.nvimrc` file in root of your project and append items to `CpMenu` like this:
 
@@ -124,13 +126,7 @@ table.insert(require("command_palette").CpMenu, {
 })
 ```
 
-## Default mappings (insert mode):
-
-| Key   | Description                                                   |
-| ---   | ------------------------------------------------------------- |
-| `c-b` | go back to categories                                         |
-
-## Default mappings (normal mode):
+# Default mappings
 
 | Key   | Description                                                   |
 | ---   | ------------------------------------------------------------- |
@@ -140,24 +136,17 @@ table.insert(require("command_palette").CpMenu, {
 
 `:Telescope command_palette`.
 
-# Contribution
 
-If you have any idea to improve this project, please create a pull-request for it. To make changes consistent, i have some rules:
-1. Before submit your work, please format it with [StyLua](https://github.com/JohnnyMorganz/StyLua).
-    1. Just go to root of the project and call: `stylua .`
+<!-- panvimdoc-ignore-start -->
 
-2. There should be a one-to-one relation between features and pull requests. Please create separate pull-requests for each feature.
-3. Please use [snake_case](https://en.wikipedia.org/wiki/Snake_case) for function names and local variables
-4. If your PR have more than one commit, please squash them into one.
-5. Use meaningful name for variables and functions. Don't use abbreviations as far as you can.
+# Develop
 
+```shell
+git clone https://github.com/ljQAQ233/telescope-command-palette.nvim
+```
 
-# Roadmap :blue_car:
+- `make clean` - clean built docs and rubbish
+- `make gendoc` - generate vimdoc in `doc/`
+- `make opendoc` - open vimdoc in nvim
 
-- :heavy_check_mark: use __modules__ and __setup__ function. (Thanks to: [mrjones2014](https://github.com/mrjones2014))
-- [ ] let users chose the __separator__ icon.
-- [ ] make categories per os/distro.
-- [ ] allow users to define keybindings for items in categories/commands.
-- [ ] remember the selected item in come back to categories.
-- [ ] show frequently commands based on frecency algorithm.
-- [ ] add options to make telescope-command-palette.nvim more like vscode command-palatte. (like: @, ...)
+<!-- panvimdoc-ignore-end -->
