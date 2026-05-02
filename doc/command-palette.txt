@@ -7,6 +7,8 @@ Table of Contents                          *command-palette-table-of-contents*
 1. Introduction                                 |command-palette-introduction|
 2. Installation                                 |command-palette-installation|
   - Configurations               |command-palette-installation-configurations|
+  - Customization                 |command-palette-installation-customization|
+  - Old-ver migration         |command-palette-installation-old-ver-migration|
   - Per-project config       |command-palette-installation-per-project-config|
 3. Default mappings                         |command-palette-default-mappings|
 4. Usage                                               |command-palette-usage|
@@ -105,7 +107,55 @@ flag**(optional) (indicates that whether you want to be in insert_mode after
 run the command or not. **1** means: insert mode. **everything else** is normal
 mode)
 
-Tip: `CpMenu` is just a simple table <https://www.lua.org/pil/2.5.html>.
+Tip: `CpMenu` is just a simple table <https://www.lua.org/pil/2.5.html>. Note:
+insertion to `CpMenu` should be after the extension is loaded
+(`load_extension`)
+
+
+CUSTOMIZATION                     *command-palette-installation-customization*
+
+We call the table assigned to `command_palette` as top-level `CpMenu` (`Command
+Palette Menu`). And every item that can be selected from we call it as a
+`selection`. Further, some selections may lead us to a `submenu`.
+
+Each menu configuration usually starts with its name, description, or you can
+evidently assign them as `name`, `desc`, respectively:
+
+>lua
+    local a_menu = {
+      [name =] <name>,
+      [op =] <operation(s)>,
+      [desc =] <description>,
+    }
+<
+
+Operation(s) can be: - `string` - vimscript - `table` - submenu
+
+
+OLD-VER MIGRATION             *command-palette-installation-old-ver-migration*
+
+If you have used the original version of `telescope-command-palette`, you can
+migrate your configuration to this version with `migrate()`.
+
+>diff
+    require("telescope").setup({
+    require("telescope").setup({
+      extensions = {
+    -   command_palette = {
+    +   command_palette = require("command_palette").migrate({
+          {
+            "File",
+            { "entire selection", ":call feedkeys(\"GVgg\")" },
+          },
+    -   }
+    +   })
+      }
+    })
+<
+
+Or you can do so manually as per the customization doc: 1. Insert a string of
+"Command Palette" in the start of table 2. Remove the `commands`-level
+table’s third field (`1` or `true`)
 
 
 PER-PROJECT CONFIG           *command-palette-installation-per-project-config*
