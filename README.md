@@ -99,6 +99,30 @@ Each command has three parts:
 Tip: `CpMenu` is just a simple [table](https://www.lua.org/pil/2.5.html).
 Note: insertion to `CpMenu` should be after the extension is loaded (`load_extension`)
 
+## Old-ver migration
+
+If you have used the original version of `telescope-command-palette`, you can migrate your configuration to this version with `migrate()`.
+
+```diff
+require("telescope").setup({
+require("telescope").setup({
+  extensions = {
+-   command_palette = {
++   command_palette = require("command_palette").migrate({
+      {
+        "File",
+        { "entire selection", ":call feedkeys(\"GVgg\")" },
+      },
+-   }
++   })
+  }
+})
+```
+
+Or you can do so manually as per the customization doc:
+  1. Insert a string of "Command Palette" in the start of table
+  2. Remove the `commands`-level table's third field (`1` or `true`)
+
 ## Per-project config
 
 If you're working on different projects and want to have special key_bindings per project, you can create a `.nvimrc` file in root of your project and append items to `CpMenu` like this:
