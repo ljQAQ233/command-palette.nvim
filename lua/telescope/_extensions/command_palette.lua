@@ -173,8 +173,14 @@ selection_attr = function(selection, attribute)
       return selection.op
     end
     local op_slot = selection[2]
-    if op_slot ~= nil and (type(op_slot) == "string" or type(op_slot) == "function") then
-      return op_slot
+    if op_slot ~= nil then
+      if type(op_slot) == "table" and type(selection_attr(op_slot, "n")) ~= "string" then
+        op_slot.name = selection_attr(selection, "n")
+        return op_slot
+      end
+      if type(op_slot) == "string" or type(op_slot) == "function" then
+        return op_slot
+      end
     end
     return extract_menu(selection)
   end
