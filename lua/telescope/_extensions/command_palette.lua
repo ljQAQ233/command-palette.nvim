@@ -117,7 +117,7 @@ local function extract_menu(menu)
 end
 
 ---@alias PaletteOperation
----| table -- sub-level menu
+---| PaletteSelection -- sub-level menu
 ---| string -- vimscript
 ---| function -- lua function
 
@@ -139,7 +139,13 @@ selection_attr = function(selection, attribute)
   assert(type(selection) == "table")
   -- get name
   if attribute == "n" then
-    return selection.name or selection[1]
+    if selection.name ~= nil then
+      return selection.name
+    end
+    local name_slot = selection[1]
+    if name_slot ~= nil and type(name_slot) == "string" then
+      return name_slot
+    end
   -- get description
   elseif attribute == "d" then
     if selection.desc ~= nil then
@@ -152,6 +158,18 @@ selection_attr = function(selection, attribute)
   -- get operations
   elseif attribute == "o" then
     if selection.op ~= nil then
+      if type(selection.op) == "table" then
+        -- accept this form: op = { }
+        -- if user passes in the table without name, inherit it
+        ---@diagnostic disable: assign-type-mismatch
+        ---@type PaletteSelection
+        local subm = selection.op
+        if type(selection_attr(subm, "n")) ~= "string" then
+          subm.name = selection_attr(selection, "n")
+        end
+        return subm
+        ---@diagnostic enable: assign-type-mismatch
+      end
       return selection.op
     end
     local op_slot = selection[2]
@@ -195,6 +213,11 @@ command_palette = function(opts, menu)
 
           local name = item.name
           local desc = item.desc
+          if type(name) ~= "string" then
+            print(type(name))
+            print(type(desc))
+            print(vim.inspect(item))
+          end
           assert(type(name) == "string")
           assert(type(desc) == "string")
 
