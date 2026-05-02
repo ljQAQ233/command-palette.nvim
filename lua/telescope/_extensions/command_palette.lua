@@ -8,7 +8,7 @@ local conf = require("telescope.config").values
 local resolve = require "telescope.config.resolve"
 
 local categories
-local CpMenu = require("command_palette").CpMenu
+local CpMenu = require("command_palette").CpMenu -- TODO!!!!!!
 
 local function setup(cpMenu)
   require("command_palette").CpMenu = cpMenu or {}
@@ -170,9 +170,9 @@ categories = function(opts, menu)
   opts = opts or {}
   pickers
     .new(opts, {
-      prompt_title = menu_name(menu),
+      prompt_title = selection_attr(menu, "n"),
       finder = finders.new_table {
-        results = extract_menu(menu),
+        results = selection_attr(menu, "o"),
         entry_maker = function(entry)
           local item = entry
           local results_win = vim.api.nvim_get_current_win()
