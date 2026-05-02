@@ -97,6 +97,7 @@ Each command has three parts:
 - __insert_mode/normal_mode flag__(optional) (indicates that whether you want to be in insert_mode after run the command or not. **1** means: insert mode. **everything else** is normal mode)
 
 Tip: `CpMenu` is just a simple [table](https://www.lua.org/pil/2.5.html).
+Note: insertion to `CpMenu` should be after the extension is loaded (`load_extension`)
 
 ## Per-project config
 

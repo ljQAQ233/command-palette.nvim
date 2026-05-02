@@ -7,8 +7,9 @@ local entry_display = require "telescope.pickers.entry_display"
 local conf = require("telescope.config").values
 local resolve = require "telescope.config.resolve"
 
-local categories
-local CpMenu = require("command_palette").CpMenu -- TODO!!!!!!
+local selection_attr
+local command_palette
+local CpMenu = require("command_palette").CpMenu
 
 local function setup(cpMenu)
   require("command_palette").CpMenu = cpMenu or {}
@@ -115,10 +116,6 @@ local function extract_menu(menu)
   return results
 end
 
-local function menu_name(menu)
-  return menu[1] or menu.name
-end
-
 ---@alias PaletteOperation
 ---| table -- sub-level menu
 ---| string -- vimscript
@@ -138,7 +135,7 @@ end
 ---@param selection PaletteSelection
 ---@param attribute PaletteAttribute
 ---@return string|PaletteOperation|nil
-function selection_attr(selection, attribute)
+selection_attr = function(selection, attribute)
   assert(type(selection) == "table")
   -- get name
   if attribute == "n" then
@@ -166,7 +163,7 @@ function selection_attr(selection, attribute)
   return nil
 end
 
-categories = function(opts, menu)
+command_palette = function(opts, menu)
   opts = opts or {}
   pickers
     .new(opts, {
@@ -228,7 +225,7 @@ categories = function(opts, menu)
           if type(op) == "string" then
             vim.api.nvim_exec2(op, { output = true })
           elseif type(op) == "table" then
-            categories(opts, op)
+            command_palette(opts, op)
           end
         end)
         return true
@@ -238,7 +235,7 @@ categories = function(opts, menu)
 end
 
 local function run()
-  categories(require("telescope.themes").vscode {}, CpMenu)
+  command_palette(require("telescope.themes").vscode {}, CpMenu)
 end
 
 return require("telescope").register_extension {
