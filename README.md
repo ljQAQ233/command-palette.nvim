@@ -99,6 +99,24 @@ Each command has three parts:
 Tip: `CpMenu` is just a simple [table](https://www.lua.org/pil/2.5.html).
 Note: insertion to `CpMenu` should be after the extension is loaded (`load_extension`)
 
+## Customization
+
+We call the table assigned to `command_palette` as top-level `CpMenu` (`Command Palette Menu`). And every item that can be selected from we call it  as a `selection`. Further, some selections may lead us to a `submenu`.
+
+Each menu configuration usually starts with its name, description, or you can evidently assign them as `name`, `desc`, respectively:
+
+```lua
+local a_menu = {
+  [name =] <name>,
+  [op =] <operation(s)>,
+  [desc =] <description>,
+}
+```
+
+Operation(s) can be:
+- `string` - vimscript
+- `table` - submenu
+
 ## Old-ver migration
 
 If you have used the original version of `telescope-command-palette`, you can migrate your configuration to this version with `migrate()`.
