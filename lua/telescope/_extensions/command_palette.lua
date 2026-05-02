@@ -70,15 +70,34 @@ function themes.vscode(opts)
   return vim.tbl_deep_extend("force", theme_opts, opts)
 end
 
+--- fix selection's desc to strip nil value
+---@param selection PaletteSelection: original selection
+---@return string: description after being fixed
+local function fixup_desc(selection)
+  local op = selection.op
+  if type(op) == "table" then
+    return "command palette sub-menu"
+  elseif type(op) == "function" then
+    return "lua function"
+  elseif type(op) == "string" then
+    return "vim script"
+  end
+  return "placeholder"
+end
+
 --- create an item to describe a selectable entry
 ---@param raw PaletteSelection
 ---@return PaletteSelection
 local function make_selection(raw)
-  return {
+  local new = {
     name = selection_attr(raw, "n"),
     desc = selection_attr(raw, "d"),
-    ops = selection_attr(raw, "o"),
+    op = selection_attr(raw, "o"),
   }
+  if new.desc == nil then
+    new.desc = fixup_desc(new)
+  end
+  return new
 end
 
 -- generate a table to display
@@ -108,7 +127,7 @@ end
 ---@class PaletteSelection
 ---@field name string
 ---@field desc string
----@field ops PaletteOperation
+---@field op PaletteOperation
 
 ---@alias PaletteAttribute
 ---| 'n' name
@@ -135,8 +154,8 @@ function selection_attr(selection, attribute)
     end
   -- get operations
   elseif attribute == "o" then
-    if selection.ops ~= nil then
-      return selection.ops
+    if selection.op ~= nil then
+      return selection.op
     end
     local op_slot = selection[2]
     if op_slot ~= nil and (type(op_slot) == "string" or type(op_slot) == "function") then
@@ -144,7 +163,7 @@ function selection_attr(selection, attribute)
     end
     return extract_menu(selection)
   end
-  return ""
+  return nil
 end
 
 categories = function(opts, menu)
@@ -205,7 +224,7 @@ categories = function(opts, menu)
           --   vim.cmd "startinsert! "
           -- end)
           ---@type PaletteSelection
-          local op = action_state.get_selected_entry().value.ops
+          local op = action_state.get_selected_entry().value.op
           if type(op) == "string" then
             vim.api.nvim_exec2(op, { output = true })
           elseif type(op) == "table" then
