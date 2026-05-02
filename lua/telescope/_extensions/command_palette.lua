@@ -244,9 +244,12 @@ command_palette = function(opts, menu)
           --   vim.cmd "startinsert! "
           -- end)
           ---@type PaletteSelection
-          local op = action_state.get_selected_entry().value.op
+          local selection = action_state.get_selected_entry().value
+          local op = selection.op
           if type(op) == "string" then
             vim.api.nvim_exec2(op, { output = true })
+          elseif type(op) == "function" then
+            op(selection)
           elseif type(op) == "table" then
             command_palette(opts, op)
           end
